@@ -6,6 +6,7 @@ import { useUiStore } from '@/store/uiStore'
 import { useAuthStore } from '@/store/authStore'
 import { Avatar } from '@/components/ui/Avatar'
 import { NotificationBell } from '@/components/layout/NotificationBell'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { Dropdown, DropdownItem } from '@/components/ui/Dropdown'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -22,7 +23,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-black/50 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 w-full border-b border-black/10 dark:border-white/10 bg-white/40 dark:bg-black/50 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between px-4 md:px-8">
         <div className="flex items-center gap-4">
           <button onClick={toggleSidebar} className="md:hidden text-gray-300 hover:text-white">
@@ -41,17 +42,20 @@ export function Navbar() {
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <Search className="h-4 w-4 text-gray-500" />
             </div>
-            <input 
-              type="text" 
-              placeholder="Search movies, books, anime..." 
+            <input
+              type="text"
+              placeholder="Search movies, books, anime..."
               className="block w-full rounded-full border border-white/10 bg-white/5 py-2 pl-10 pr-3 text-sm text-white placeholder-gray-500 focus:border-indigo-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 transition-colors"
             />
           </div>
 
-          <NotificationBell />
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <NotificationBell />
+          </div>
 
           {user ? (
-            <Dropdown 
+            <Dropdown
               trigger={<Avatar src={profile?.avatar_url} fallback={profile?.display_name || user.email} />}
             >
               <div className="px-3 py-2 border-b border-white/10 mb-1">

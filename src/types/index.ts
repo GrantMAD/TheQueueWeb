@@ -10,4 +10,5 @@ export interface UserProfile {
   is_public: boolean
   followers_count: number
   following_count: number
+  theme_preference?: 'light' | 'dark' | 'system'
 }

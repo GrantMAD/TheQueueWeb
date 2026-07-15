@@ -11,8 +11,8 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          'rounded-2xl border border-white/10 bg-black/40 backdrop-blur-xl shadow-xl overflow-hidden transition-all duration-300',
-          isClickable && 'hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20 cursor-pointer hover:bg-white/5 hover:border-white/20',
+          'rounded-2xl border border-black/10 dark:border-white/10 bg-white/40 dark:bg-black/40 backdrop-blur-xl shadow-xl overflow-hidden transition-all duration-300',
+          isClickable && 'hover:-translate-y-1 hover:shadow-2xl hover:shadow-indigo-500/20 cursor-pointer hover:bg-white/60 dark:hover:bg-white/5 hover:border-black/20 dark:hover:border-white/20',
           className
         )}
         {...props}
@@ -27,7 +27,7 @@ export function CardHeader({ className, ...props }: React.HTMLAttributes<HTMLDiv
 }
 
 export function CardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
-  return <h3 className={cn('text-xl font-semibold tracking-tight text-white', className)} {...props} />
+  return <h3 className={cn('text-xl font-semibold tracking-tight text-gray-900 dark:text-white', className)} {...props} />
 }
 
 export function CardContent({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {

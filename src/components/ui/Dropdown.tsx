@@ -41,11 +41,11 @@ export function Dropdown({ trigger, children, align = 'right' }: DropdownProps) 
       {isOpen && (
         <div 
           className={cn(
-            "absolute z-50 mt-2 w-56 origin-top-right rounded-xl border border-white/10 bg-gray-900/95 backdrop-blur-xl shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none animate-in fade-in slide-in-from-top-2 duration-200",
+            "absolute z-50 mt-2 w-56 origin-top-right rounded-xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-gray-900/95 backdrop-blur-xl shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none animate-in fade-in slide-in-from-top-2 duration-200",
             align === 'right' ? "right-0" : "left-0"
           )}
         >
-          <div className="py-1 p-1">
+          <div className="py-1 p-1 text-gray-900 dark:text-gray-300">
             {children}
           </div>
         </div>
@@ -59,7 +59,7 @@ export function DropdownItem({ className, children, onClick }: React.HTMLAttribu
     <button
       onClick={onClick}
       className={cn(
-        "flex w-full items-center rounded-lg px-3 py-2 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-colors",
+        "flex w-full items-center rounded-lg px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-colors",
         className
       )}
     >

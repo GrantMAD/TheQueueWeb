@@ -27,30 +27,30 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 bg-white/40 dark:bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
       
       {/* Modal Content */}
       <div 
         className={cn(
-          "relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-gray-900/90 backdrop-blur-xl shadow-2xl p-6 m-4 animate-in zoom-in-95 fade-in duration-200",
+          "relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl shadow-2xl p-6 m-4 animate-in zoom-in-95 fade-in duration-200",
           className
         )}
       >
         <button 
           aria-label="Close modal"
           onClick={onClose}
-          className="absolute top-4 right-4 rounded-full p-2 text-gray-400 hover:bg-white/10 hover:text-white transition-colors"
+          className="absolute top-4 right-4 rounded-full p-2 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-colors"
         >
           <X className="h-5 w-5" />
         </button>
         
         {title && (
-          <h2 className="text-xl font-semibold text-white mb-6 pr-8">{title}</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 pr-8">{title}</h2>
         )}
         
-        <div className="text-gray-300">
+        <div className="text-gray-700 dark:text-gray-300">
           {children}
         </div>
       </div>

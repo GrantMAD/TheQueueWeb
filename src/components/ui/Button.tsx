@@ -13,10 +13,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center rounded-full font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-black disabled:opacity-50 disabled:pointer-events-none active:scale-95'
     
     const variants = {
-      primary: 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] border border-white/10',
-      secondary: 'bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:border-white/30',
-      ghost: 'hover:bg-white/10 text-gray-300 hover:text-white',
-      destructive: 'bg-red-500/80 text-white hover:bg-red-600 backdrop-blur-md border border-red-500/50'
+      primary: 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] border border-transparent',
+      secondary: 'bg-white/60 dark:bg-white/10 backdrop-blur-md border border-black/10 dark:border-white/20 text-gray-900 dark:text-white hover:bg-white/80 dark:hover:bg-white/20',
+      ghost: 'hover:bg-black/5 dark:hover:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white',
+      destructive: 'bg-red-500/10 dark:bg-red-500/80 text-red-600 dark:text-white hover:bg-red-500/20 dark:hover:bg-red-600 backdrop-blur-md border border-red-500/20 dark:border-red-500/50'
     }
 
     const sizes = {

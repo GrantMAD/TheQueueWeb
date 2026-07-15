@@ -25,14 +25,14 @@ function Toast({ id, type, message, onClose }: { id: string; type: string; messa
   }
 
   return (
-    <div className="pointer-events-auto relative mt-4 flex w-full items-center justify-between space-x-4 overflow-hidden rounded-xl border border-white/10 bg-gray-900/90 backdrop-blur-xl p-4 shadow-2xl transition-all animate-in slide-in-from-bottom-5 fade-in duration-300">
+    <div className="pointer-events-auto relative mt-4 flex w-full items-center justify-between space-x-4 overflow-hidden rounded-xl border border-black/10 dark:border-white/10 bg-white/80 dark:bg-gray-900/90 backdrop-blur-xl p-4 shadow-2xl transition-all animate-in slide-in-from-bottom-5 fade-in duration-300">
       <div className="flex items-center gap-3">
         {icons[type as keyof typeof icons]}
-        <p className="text-sm font-medium text-white">{message}</p>
+        <p className="text-sm font-medium text-gray-900 dark:text-white">{message}</p>
       </div>
       <button 
         onClick={onClose}
-        className="rounded-md p-1 text-gray-400 hover:bg-white/10 hover:text-white transition-colors"
+        className="rounded-md p-1 text-gray-500 dark:text-gray-400 hover:bg-black/10 dark:hover:bg-white/10 hover:text-gray-900 dark:hover:text-white transition-colors"
       >
         <X className="h-4 w-4" />
       </button>

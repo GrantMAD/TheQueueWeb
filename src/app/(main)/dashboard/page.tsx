@@ -24,7 +24,7 @@ export default function DashboardPage() {
       <section>
         <h1 className="text-3xl md:text-4xl font-extrabold text-white mb-2">Your Queue</h1>
         <p className="text-gray-400 mb-8">What are you adding today?</p>
-        <MediaSearch onSearch={() => {}} />
+        <MediaSearch onSearch={() => { }} />
       </section>
 
       {/* Continue Watching / Reading */}

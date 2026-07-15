@@ -2,9 +2,12 @@
 import * as React from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useAuthStore } from '@/store/authStore'
+import { useTheme } from 'next-themes'
+import type { UserProfile } from '@/types'
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setUser, setProfile, setLoading } = useAuthStore()
+  const { setTheme } = useTheme()
   const supabase = createClient()
 
   React.useEffect(() => {
@@ -39,7 +42,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .eq('id', userId)
       .single()
 
-    setProfile(data ?? null)
+    const profileData = data as unknown as UserProfile | null
+
+    setProfile(profileData)
+    if (profileData?.theme_preference) {
+      setTheme(profileData.theme_preference)
+    }
     setLoading(false)
   }
 

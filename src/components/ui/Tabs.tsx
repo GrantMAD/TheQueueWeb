@@ -11,7 +11,7 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Tabs({ className, value, onValueChange, tabs, ...props }: TabsProps) {
   return (
     <div 
-      className={cn("flex space-x-1 rounded-xl border border-white/10 bg-black/40 backdrop-blur-md p-1", className)} 
+      className={cn("flex space-x-1 rounded-xl border border-black/10 dark:border-white/10 bg-white/40 dark:bg-black/40 backdrop-blur-md p-1", className)} 
       {...props}
     >
       {tabs.map((tab) => {
@@ -23,8 +23,8 @@ export function Tabs({ className, value, onValueChange, tabs, ...props }: TabsPr
             className={cn(
               "relative flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-300 outline-none",
               isActive 
-                ? "bg-white/15 text-white shadow-sm" 
-                : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                ? "bg-white/60 dark:bg-white/15 text-gray-900 dark:text-white shadow-sm" 
+                : "text-gray-600 dark:text-gray-400 hover:bg-black/5 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200"
             )}
           >
             {tab.label}
