@@ -30,7 +30,7 @@ export default function DashboardPage() {
       {/* Continue Watching / Reading */}
       <section>
         <SectionHeader title="Continue Where You Left Off" icon={Clock} />
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {/* Skeleton placeholders until data loads */}
           {Array.from({ length: 5 }).map((_, i) => (
             <Skeleton key={i} className="aspect-[2/3] rounded-2xl" />

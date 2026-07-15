@@ -45,7 +45,7 @@ export function VotingRound({ round, poolItems, userVoteIds, isOwner, isLoading,
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="aspect-[2/3] rounded-2xl" />)}
       </div>
     )
@@ -85,7 +85,7 @@ export function VotingRound({ round, poolItems, userVoteIds, isOwner, isLoading,
         </div>
       )}
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         {poolItems.map(poolItem => (
           <VoteCard
             key={poolItem.id}
