@@ -19,7 +19,7 @@ export default function NotFound() {
         <p className="text-[8rem] md:text-[10rem] font-black leading-none text-transparent bg-clip-text bg-gradient-to-b from-indigo-400/80 to-transparent select-none">
           404
         </p>
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 -mt-4">This page doesn't exist</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 -mt-4">This page doesn't exist</h1>
         <p className="text-gray-400 mb-10 max-w-sm">
           Looks like you wandered off the beaten path. Let's get you back to your Queue.
         </p>

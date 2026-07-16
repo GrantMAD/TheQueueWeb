@@ -13,7 +13,7 @@ export default function NotificationsPage() {
   return (
     <div className="p-6 md:p-8 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-3xl font-extrabold text-white">Notifications</h1>
+        <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">Notifications</h1>
         {notifications.length > 0 && (
           <Button variant="ghost" size="sm" className="gap-2 text-indigo-400 hover:text-indigo-300">
             <CheckCheck className="h-4 w-4" /> Mark all as read
@@ -28,7 +28,7 @@ export default function NotificationsPage() {
       ) : notifications.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-32 text-center border border-white/10 rounded-2xl bg-black/20">
           <Bell className="h-12 w-12 text-gray-600 mb-4" />
-          <h2 className="text-xl font-semibold text-white mb-2">You're all caught up!</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">You're all caught up!</h2>
           <p className="text-gray-400 max-w-xs">New follower alerts, group invites, and vote results will appear here.</p>
         </div>
       ) : (

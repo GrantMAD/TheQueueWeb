@@ -47,7 +47,7 @@ export function GroupSettings({ group, members, onSave, onKick, onDelete, isSavi
     <div className="space-y-10 max-w-2xl mx-auto">
       {/* General */}
       <section>
-        <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <Settings className="h-5 w-5 text-indigo-400" /> General
         </h2>
         <div className="space-y-4 p-5 rounded-2xl border border-white/10 bg-black/40">
@@ -77,7 +77,7 @@ export function GroupSettings({ group, members, onSave, onKick, onDelete, isSavi
 
       {/* Voting Settings */}
       <section>
-        <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <Vote className="h-5 w-5 text-indigo-400" /> Voting Settings
         </h2>
         <div className="space-y-4 p-5 rounded-2xl border border-white/10 bg-black/40">
@@ -110,7 +110,7 @@ export function GroupSettings({ group, members, onSave, onKick, onDelete, isSavi
 
       {/* Members */}
       <section>
-        <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
           <Users className="h-5 w-5 text-indigo-400" /> Members ({members.length})
         </h2>
         <div className="rounded-2xl border border-white/10 bg-black/40 divide-y divide-white/5">

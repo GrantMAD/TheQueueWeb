@@ -36,7 +36,7 @@ export function ProfileHeader({ user, followerCount, followingCount, isOwnProfil
             className="h-32 w-32 md:h-40 md:w-40 border-4 border-[#0F0F13] shadow-2xl rounded-3xl" 
           />
           <div className="pb-2">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight">{user.display_name}</h1>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">{user.display_name}</h1>
             <p className="text-indigo-400 font-medium text-lg">@{user.username}</p>
           </div>
         </div>

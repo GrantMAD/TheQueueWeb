@@ -40,7 +40,7 @@ export function GroupCard({ id, name, description, coverUrl, memberCount, type, 
       </div>
 
       <CardContent className="p-4">
-        <h3 className="font-bold text-white truncate mb-1">{name}</h3>
+        <h3 className="font-bold text-gray-900 dark:text-white truncate mb-1">{name}</h3>
         {description && <p className="text-sm text-gray-400 line-clamp-2 mb-3">{description}</p>}
         
         <div className="flex items-center justify-between">

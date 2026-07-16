@@ -19,7 +19,7 @@ export default function GroupSettingsPage() {
 
   return (
     <div className="p-6 md:p-8">
-      <h1 className="text-3xl font-extrabold text-white mb-8">Group Settings</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-8">Group Settings</h1>
       <GroupSettings
         group={mockGroup}
         members={[]}

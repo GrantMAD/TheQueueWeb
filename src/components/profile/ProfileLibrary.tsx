@@ -28,7 +28,7 @@ export function ProfileLibrary({ items, isPublic, isFollower, isOwnProfile, isLo
     return (
       <div className="py-32 text-center border border-dashed border-white/10 rounded-2xl bg-black/20">
         <Lock className="h-12 w-12 text-gray-600 mx-auto mb-4" />
-        <h2 className="text-xl font-semibold text-white mb-2">This library is private</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">This library is private</h2>
         <p className="text-gray-400">Follow this user to see what they are watching.</p>
       </div>
     )
@@ -37,7 +37,7 @@ export function ProfileLibrary({ items, isPublic, isFollower, isOwnProfile, isLo
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-2xl font-bold text-white">Library</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Library</h2>
       </div>
 
       <div className="mb-8 overflow-x-auto">

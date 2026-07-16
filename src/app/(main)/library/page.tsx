@@ -36,7 +36,7 @@ export default function LibraryPage() {
     <div className="p-6 md:p-8 max-w-7xl mx-auto">
       <div className="flex items-start justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <h1 className="text-3xl font-extrabold text-white mb-1">My Library</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-1">My Library</h1>
           <p className="text-gray-400">Everything you've added to your Queue.</p>
         </div>
         <Dropdown 

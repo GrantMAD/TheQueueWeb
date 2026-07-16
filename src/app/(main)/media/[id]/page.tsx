@@ -47,7 +47,7 @@ export default async function MediaPage({ params }: Props) {
       {/* Progress (if watching/reading) */}
       <section>
         <div className="p-6 rounded-2xl border border-white/10 bg-white/5">
-          <h2 className="text-xl font-bold text-white mb-4">Your Progress</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Your Progress</h2>
           <ProgressTracker 
             label="Episodes"
             current={0} 
@@ -60,7 +60,7 @@ export default async function MediaPage({ params }: Props) {
       {/* Reviews */}
       <section>
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-          <h2 className="text-2xl font-bold text-white">Reviews</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Reviews</h2>
           {!hasReview && (
             <Button className="gap-2"><PenSquare className="h-4 w-4" /> Write Review</Button>
           )}

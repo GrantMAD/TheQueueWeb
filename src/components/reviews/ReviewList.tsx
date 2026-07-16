@@ -27,7 +27,7 @@ export function ReviewList({ reviews, isLoading, onLike, onComment }: ReviewList
         <div className="bg-white/5 p-4 rounded-full mb-4">
           <MessageCircleOff className="h-8 w-8 text-gray-500" />
         </div>
-        <h3 className="text-xl font-semibold text-white mb-2">No reviews yet</h3>
+        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No reviews yet</h3>
         <p className="text-sm text-gray-400 max-w-sm">
           Be the first to share your thoughts and help others decide if this is worth experiencing!
         </p>

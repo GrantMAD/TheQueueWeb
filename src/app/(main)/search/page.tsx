@@ -25,7 +25,7 @@ export default function SearchPage() {
 
   return (
     <div className="p-6 md:p-8 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-extrabold text-white mb-6">Search</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-6">Search</h1>
 
       <div className="mb-6">
         <Input

@@ -15,7 +15,7 @@ export default function FeedPage() {
 
   return (
     <div className="p-6 md:p-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-extrabold text-white mb-2">Friend Feed</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Friend Feed</h1>
       <p className="text-gray-400 mb-8">What your people are up to.</p>
 
       {/* Filters */}
@@ -44,7 +44,7 @@ export default function FeedPage() {
       ) : !hasItems ? (
         <div className="flex flex-col items-center justify-center py-32 text-center border border-white/10 rounded-2xl bg-black/20">
           <Users className="h-12 w-12 text-gray-600 mb-4" />
-          <h2 className="text-xl font-semibold text-white mb-2">Nothing here yet</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Nothing here yet</h2>
           <p className="text-gray-400 max-w-xs">Follow some people and their activity will show up right here.</p>
         </div>
       ) : (

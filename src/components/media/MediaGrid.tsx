@@ -35,7 +35,7 @@ export function MediaGrid({
         <div className="rounded-full bg-white/5 p-4 mb-4 text-gray-400">
           <FolderHeart className="h-8 w-8" />
         </div>
-        <h3 className="text-lg font-medium text-white mb-1">It's pretty empty here</h3>
+        <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">It's pretty empty here</h3>
         <p className="text-sm text-gray-400 max-w-sm">{emptyMessage}</p>
       </div>
     )

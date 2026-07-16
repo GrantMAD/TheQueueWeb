@@ -65,7 +65,7 @@ export default function RegisterPage() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-3xl font-extrabold text-white">Create your account</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">Create your account</h2>
         <p className="mt-2 text-gray-400">Join The Queue and start sharing what you love.</p>
       </div>
 

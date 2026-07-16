@@ -88,7 +88,7 @@ export function MediaDetail({ item, isLoading, userStatus, userProgress = 0 }: M
         )}
         
         <div className="prose prose-invert prose-p:text-gray-300 prose-p:leading-relaxed prose-lg max-w-none bg-black/20 backdrop-blur-sm p-6 rounded-2xl border border-white/5 shadow-inner">
-          <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
             <span className="w-1.5 h-6 bg-indigo-500 rounded-full inline-block" />
             Overview
           </h3>

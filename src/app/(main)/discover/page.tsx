@@ -12,12 +12,12 @@ export default function DiscoverPage() {
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-extrabold text-white mb-2">Discover</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Discover</h1>
       <p className="text-gray-400 mb-10">Find public groups to join and trending media across The Queue.</p>
 
       {/* Global Media Search */}
       <section className="mb-16">
-        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
           <Compass className="h-5 w-5 text-indigo-400" /> Search All Media
         </h2>
         <MediaSearch onSearch={() => {}} />
@@ -25,7 +25,7 @@ export default function DiscoverPage() {
 
       {/* Public Groups */}
       <section className="mb-16">
-        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
           <Users className="h-5 w-5 text-indigo-400" /> Public Groups
         </h2>
 
@@ -49,7 +49,7 @@ export default function DiscoverPage() {
               <Card key={group.id} isClickable>
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-semibold text-white truncate">{group.name}</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white truncate">{group.name}</h3>
                     <Badge variant="default" className="shrink-0 ml-2">Public</Badge>
                   </div>
                   <p className="text-sm text-gray-400 line-clamp-2 mb-4">{group.description}</p>

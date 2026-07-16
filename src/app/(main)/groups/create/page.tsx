@@ -25,7 +25,7 @@ export default function CreateGroupPage() {
 
   return (
     <div className="p-6 md:p-8 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-extrabold text-white mb-2">Create a Group</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Create a Group</h1>
       <p className="text-gray-400 mb-10">Set up your shared watchlist and start collaborating.</p>
 
       <form onSubmit={handleCreate} className="space-y-8">

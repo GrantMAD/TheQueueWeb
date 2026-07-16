@@ -34,7 +34,7 @@ export default async function GroupPage({ params }: Props) {
       {/* Recent pool preview */}
       <section>
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xl font-bold text-white">Media Pool</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Media Pool</h2>
           <Link href={`/groups/${id}/pool`}>
             <Button variant="ghost" size="sm">View All →</Button>
           </Link>

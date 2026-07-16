@@ -38,7 +38,7 @@ export function GroupHeader({ id, name, description, coverUrl, memberCount, type
                 {type === 'private' ? 'Private' : 'Public'}
               </Badge>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-white drop-shadow-lg">{name}</h1>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white drop-shadow-lg">{name}</h1>
             {description && <p className="text-gray-300 mt-1 max-w-2xl text-sm">{description}</p>}
             <p className="flex items-center gap-1.5 text-sm text-gray-400 mt-2">
               <Users className="h-4 w-4" />

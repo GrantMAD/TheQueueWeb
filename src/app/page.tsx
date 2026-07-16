@@ -94,7 +94,7 @@ export default function LandingPage() {
       <section className="px-6 py-24 bg-white/[0.02]">
         <div className="mx-auto max-w-6xl">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">Everything you need, nothing you don't.</h2>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">Everything you need, nothing you don't.</h2>
             <p className="text-gray-400 text-lg max-w-xl mx-auto">Built for people who care deeply about what they watch and read — and who they share it with.</p>
           </div>
 
@@ -104,7 +104,7 @@ export default function LandingPage() {
                 <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 group-hover:shadow-lg group-hover:shadow-indigo-500/10 transition-shadow">
                   <Icon className="h-6 w-6 text-indigo-400" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h3>
                 <p className="text-gray-400 leading-relaxed">{description}</p>
               </div>
             ))}

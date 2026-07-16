@@ -39,7 +39,7 @@ export default function LoginPage() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-3xl font-extrabold text-white">Welcome back</h2>
+        <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">Welcome back</h2>
         <p className="mt-2 text-gray-400">Sign in to continue to The Queue</p>
       </div>
 

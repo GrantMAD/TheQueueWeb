@@ -18,7 +18,7 @@ export function NotificationBell() {
       }
     >
       <div className="p-3 pb-2 border-b border-white/10">
-        <h4 className="text-sm font-semibold text-white">Notifications</h4>
+        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Notifications</h4>
       </div>
       <div className="flex flex-col max-h-80 overflow-y-auto p-1">
         <div className="p-4 text-sm text-gray-400 text-center">

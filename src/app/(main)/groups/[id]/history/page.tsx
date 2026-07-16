@@ -10,7 +10,7 @@ export default async function GroupHistoryPage({ params }: Props) {
 
   return (
     <div className="p-6 md:p-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-extrabold text-white mb-2">Winner History</h1>
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">Winner History</h1>
       <p className="text-gray-400 mb-8">Every pick your group has decided on, in order.</p>
       <GroupHistory entries={[]} />
     </div>
