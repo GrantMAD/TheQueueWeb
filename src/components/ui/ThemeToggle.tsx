@@ -4,12 +4,14 @@ import * as React from 'react'
 import { Moon, Sun } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useAuthStore } from '@/store/authStore'
+import { useUiStore } from '@/store/uiStore'
 import { createClient } from '@/lib/supabase/client'
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
   const { user } = useAuthStore()
+  const { addToast } = useUiStore()
   const supabase = createClient()
 
   // Avoid hydration mismatch by waiting for mount
@@ -26,7 +28,14 @@ export function ThemeToggle() {
     setTheme(newTheme)
     
     if (user) {
-      await supabase.from('profiles').update({ theme_preference: newTheme }).eq('id', user.id)
+      const { error } = await supabase.from('profiles').update({ theme_preference: newTheme }).eq('id', user.id)
+      if (!error) {
+        addToast({ type: 'success', message: `Theme changed to ${newTheme} mode` })
+      } else {
+        addToast({ type: 'error', message: 'Failed to save theme preference' })
+      }
+    } else {
+      addToast({ type: 'success', message: `Theme changed to ${newTheme} mode` })
     }
   }
 
