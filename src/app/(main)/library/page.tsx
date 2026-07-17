@@ -7,6 +7,8 @@ import { Search, ArrowDownAZ, Star, CalendarDays } from 'lucide-react'
 import { Dropdown, DropdownItem } from '@/components/ui/Dropdown'
 import { Button } from '@/components/ui/Button'
 import { ChevronDown } from 'lucide-react'
+import { useUser } from '@/hooks/useUser'
+import { useLibrary } from '@/hooks/useLibrary'
 
 const statusTabs = [
   { label: 'All', value: 'all' },
@@ -24,13 +26,41 @@ const sortOptions = [
 ]
 
 export default function LibraryPage() {
+  const { user } = useUser()
+  const { data: libraryItems, isLoading } = useLibrary(user?.id)
+
   const [activeTab, setActiveTab] = React.useState('all')
   const [searchQuery, setSearchQuery] = React.useState('')
   const [sortBy, setSortBy] = React.useState('date')
-  const isLoading = false
-  const items: any[] = []
 
   const activeSort = sortOptions.find(s => s.value === sortBy)!
+
+  const filteredAndSortedItems = React.useMemo(() => {
+    let items = libraryItems || []
+
+    // Filter by status tab
+    if (activeTab !== 'all') {
+      items = items.filter(item => item.status === activeTab)
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase()
+      items = items.filter(item => item.title.toLowerCase().includes(q))
+    }
+
+    // Sort
+    return items.sort((a, b) => {
+      if (sortBy === 'title') {
+        return a.title.localeCompare(b.title)
+      }
+      if (sortBy === 'rating') {
+        return (b.personal_rating || 0) - (a.personal_rating || 0)
+      }
+      // default: date added (newest first)
+      return new Date(b.added_at).getTime() - new Date(a.added_at).getTime()
+    })
+  }, [libraryItems, activeTab, searchQuery, sortBy])
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto">
@@ -74,7 +104,7 @@ export default function LibraryPage() {
 
       {/* Grid */}
       <MediaGrid 
-        items={items}
+        items={filteredAndSortedItems}
         isLoading={isLoading}
         emptyMessage={activeTab === 'all' 
           ? "Your library is empty. Search for something and add it!" 

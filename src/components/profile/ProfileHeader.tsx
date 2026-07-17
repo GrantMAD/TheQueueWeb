@@ -13,6 +13,7 @@ interface ProfileHeaderProps {
     bio?: string
     created_at: string
   }
+  email?: string
   followerCount: number
   followingCount: number
   isOwnProfile?: boolean
@@ -21,14 +22,14 @@ interface ProfileHeaderProps {
   onEdit?: () => void
 }
 
-export function ProfileHeader({ user, followerCount, followingCount, isOwnProfile, isFollowing, onFollow, onEdit }: ProfileHeaderProps) {
+export function ProfileHeader({ user, email, followerCount, followingCount, isOwnProfile, isFollowing, onFollow, onEdit }: ProfileHeaderProps) {
   return (
     <div className="relative mb-12">
       {/* Banner */}
       <div className="h-32 md:h-48 w-full rounded-2xl bg-gradient-to-br from-indigo-900/40 via-purple-900/20 to-black border border-white/5" />
       
       {/* Profile Info */}
-      <div className="px-6 md:px-10 -mt-16 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+      <div className="px-6 md:px-10 -mt-8 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
         <div className="flex flex-col sm:flex-row sm:items-end gap-5">
           <Avatar 
             src={user.avatar_url} 
@@ -38,6 +39,9 @@ export function ProfileHeader({ user, followerCount, followingCount, isOwnProfil
           <div className="pb-2">
             <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white leading-tight">{user.display_name}</h1>
             <p className="text-indigo-400 font-medium text-lg">@{user.username}</p>
+            {isOwnProfile && email && (
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{email}</p>
+            )}
           </div>
         </div>
 
@@ -61,8 +65,8 @@ export function ProfileHeader({ user, followerCount, followingCount, isOwnProfil
         
         <div className="flex flex-wrap items-center gap-6 text-sm">
           <div className="flex gap-4">
-            <p className="text-gray-400"><span className="text-white font-bold text-base">{followerCount}</span> followers</p>
-            <p className="text-gray-400"><span className="text-white font-bold text-base">{followingCount}</span> following</p>
+            <p className="text-gray-400"><span className="text-gray-900 dark:text-white font-bold text-base">{followerCount}</span> followers</p>
+            <p className="text-gray-400"><span className="text-gray-900 dark:text-white font-bold text-base">{followingCount}</span> following</p>
           </div>
           <div className="h-1 w-1 rounded-full bg-white/20 hidden sm:block" />
           <p className="text-gray-500 flex items-center gap-1.5">

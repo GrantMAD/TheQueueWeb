@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
 import { useAuthStore } from '@/lib/store/auth'
 import { useEffect } from 'react'
+import type { UserProfile } from '@/types'
 
 export function useUser() {
   const supabase = createClient()
@@ -20,7 +21,7 @@ export function useUser() {
   }, [supabase.auth, setAuth])
 
   // Fetch full profile data
-  const { data: profile, isLoading } = useQuery({
+  const { data: profile, isLoading } = useQuery<UserProfile | null>({
     queryKey: ['profile', user?.id],
     queryFn: async () => {
       if (!user) return null
@@ -30,7 +31,7 @@ export function useUser() {
         console.warn('Could not fetch profile:', error.message)
         return null
       }
-      return data
+      return data as unknown as UserProfile
     },
     enabled: !!user,
     retry: false, // Don't spam Supabase with retries on 403

@@ -2,9 +2,10 @@
 import * as React from 'react'
 import { Bell } from 'lucide-react'
 import { Dropdown } from '@/components/ui/Dropdown'
+import Link from 'next/link'
 
 export function NotificationBell() {
-  const unreadCount = 3 // Mock data for now
+  const unreadCount = 0 // Mock data for now
 
   return (
     <Dropdown 
@@ -24,6 +25,11 @@ export function NotificationBell() {
         <div className="p-4 text-sm text-gray-400 text-center">
           You're all caught up!
         </div>
+      </div>
+      <div className="border-t border-white/10 p-2 text-center">
+        <Link href="/notifications" className="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+          View All
+        </Link>
       </div>
     </Dropdown>
   )

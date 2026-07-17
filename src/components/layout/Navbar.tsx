@@ -3,7 +3,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { Search, Menu } from 'lucide-react'
 import { useUiStore } from '@/store/uiStore'
-import { useAuthStore } from '@/store/authStore'
+import { useUser } from '@/hooks/useUser'
 import { Avatar } from '@/components/ui/Avatar'
 import { NotificationBell } from '@/components/layout/NotificationBell'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
 
 export function Navbar() {
   const { toggleSidebar } = useUiStore()
-  const { user, profile } = useAuthStore()
+  const { user, profile } = useUser()
   const router = useRouter()
   const supabase = createClient()
 

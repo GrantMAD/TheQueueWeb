@@ -2,19 +2,50 @@
 import * as React from 'react'
 import { Card, CardContent } from '@/components/ui/Card'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
-import { Settings, User, Bell, Camera, Loader2 } from 'lucide-react'
+import { Settings, User, Bell, Camera, Loader2, Check } from 'lucide-react'
 import { Avatar } from '@/components/ui/Avatar'
-import { useAuthStore } from '@/store/authStore'
 import { useUiStore } from '@/store/uiStore'
 import { createClient } from '@/lib/supabase/client'
+import { useUser } from '@/hooks/useUser'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function SettingsPage() {
-  const { user, profile, setProfile } = useAuthStore()
+  const { user, profile } = useUser()
   const { addToast } = useUiStore()
+  const queryClient = useQueryClient()
+  const supabase = createClient()
+
   const [previewUrl, setPreviewUrl] = React.useState<string | null>(null)
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null)
   const [isUploading, setIsUploading] = React.useState(false)
-  const supabase = createClient()
+
+  // Display name state
+  const [displayName, setDisplayName] = React.useState('')
+  const [isSavingName, setIsSavingName] = React.useState(false)
+
+  // Sync display name from profile once loaded
+  React.useEffect(() => {
+    if (profile?.display_name) setDisplayName(profile.display_name)
+  }, [profile?.display_name])
+
+  const handleSaveDisplayName = async () => {
+    if (!user || !displayName.trim()) return
+    setIsSavingName(true)
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ display_name: displayName.trim() })
+        .eq('id', user.id)
+      if (error) throw error
+      queryClient.invalidateQueries({ queryKey: ['profile', user.id] })
+      addToast({ type: 'success', message: 'Display name updated!' })
+    } catch (err) {
+      console.error(err)
+      addToast({ type: 'error', message: 'Failed to update display name.' })
+    } finally {
+      setIsSavingName(false)
+    }
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -54,9 +85,7 @@ export default function SettingsPage() {
 
       if (updateError) throw updateError
 
-      if (profile) {
-        setProfile({ ...profile, avatar_url: publicUrl })
-      }
+      queryClient.invalidateQueries({ queryKey: ['profile', user.id] })
       setSelectedFile(null)
       addToast({ type: 'success', message: 'Profile picture updated successfully' })
     } catch (err) {
@@ -134,12 +163,24 @@ export default function SettingsPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Display Name</label>
-                <input 
-                  type="text" 
-                  disabled
-                  value={profile?.display_name || ''} 
-                  className="block w-full max-w-md rounded-xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-4 py-2.5 text-gray-900 dark:text-white opacity-70 cursor-not-allowed"
-                />
+                <div className="flex items-center gap-2 max-w-md">
+                  <input 
+                    type="text"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSaveDisplayName()}
+                    placeholder="Your display name"
+                    className="block w-full rounded-xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-4 py-2.5 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                  <button
+                    onClick={handleSaveDisplayName}
+                    disabled={isSavingName || !displayName.trim() || displayName.trim() === profile?.display_name}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-xl text-sm font-medium transition-colors bg-indigo-600 text-white hover:bg-indigo-700 h-10 px-4 disabled:opacity-40 disabled:pointer-events-none shrink-0"
+                  >
+                    {isSavingName ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                    {isSavingName ? 'Saving' : 'Save'}
+                  </button>
+                </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email</label>
@@ -150,9 +191,6 @@ export default function SettingsPage() {
                   className="block w-full max-w-md rounded-xl border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 px-4 py-2.5 text-gray-900 dark:text-white opacity-70 cursor-not-allowed"
                 />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                Note: Updating profile details is currently disabled in this view.
-              </p>
             </div>
           </CardContent>
         </Card>

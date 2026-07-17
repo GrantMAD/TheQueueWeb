@@ -4,6 +4,12 @@ import { Skeleton } from '@/components/ui/Skeleton'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Activity, Clock, Vote } from 'lucide-react'
+import { useUser } from '@/hooks/useUser'
+import { useLibrary } from '@/hooks/useLibrary'
+import { useFeed } from '@/hooks/useFeed'
+import { useUserGroups } from '@/hooks/useGroups'
+import { MediaCard } from '@/components/media/MediaCard'
+import { ActivityCard } from '@/components/feed/ActivityCard'
 
 function SectionHeader({ title, icon: Icon }: { title: string, icon: React.ElementType }) {
   return (
@@ -17,6 +23,18 @@ function SectionHeader({ title, icon: Icon }: { title: string, icon: React.Eleme
 }
 
 export default function DashboardPage() {
+  const { user } = useUser()
+  const { data: library, isLoading: libraryLoading } = useLibrary(user?.id)
+  const { data: feedPages, isLoading: feedLoading } = useFeed()
+  const { data: groups, isLoading: groupsLoading } = useUserGroups()
+
+  // "Continue" = items currently watching/reading
+  const continueItems = React.useMemo(() => {
+    return (library || []).filter(item => item.status === 'current').slice(0, 5)
+  }, [library])
+
+  const recentFeed = feedPages?.pages[0]?.data.slice(0, 5) || []
+
   return (
     <div className="p-6 md:p-8 space-y-12 max-w-6xl mx-auto">
       {/* Welcome Hero */}
@@ -45,35 +63,67 @@ export default function DashboardPage() {
       <section>
         <SectionHeader title="Continue Where You Left Off" icon={Clock} />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {/* Skeleton placeholders until data loads */}
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Skeleton key={i} className="aspect-[2/3] rounded-2xl" />
-          ))}
+          {libraryLoading ? (
+            Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton key={i} className="aspect-[2/3] rounded-2xl w-full" />
+            ))
+          ) : continueItems.length > 0 ? (
+            continueItems.map((item, idx) => (
+              <MediaCard key={item.id || idx} item={item} />
+            ))
+          ) : (
+            <div className="col-span-full py-8 text-center text-gray-500 border border-dashed border-white/10 rounded-2xl">
+              You aren't currently tracking any active media.
+            </div>
+          )}
         </div>
       </section>
 
       {/* Active Group Votes */}
       <section>
         <SectionHeader title="Active Votes in Your Groups" icon={Vote} />
-        <Card className="border-dashed border-indigo-500/20 bg-indigo-500/5">
-          <CardContent className="py-10 text-center">
-            <Vote className="h-10 w-10 text-indigo-400/40 mx-auto mb-3" />
-            <p className="text-gray-400 font-medium">No active voting rounds.</p>
-            <p className="text-sm text-gray-600 mt-1">Join a group and start one!</p>
-          </CardContent>
-        </Card>
+        {groupsLoading ? (
+           <Skeleton className="h-32 w-full rounded-2xl" />
+        ) : groups && groups.length > 0 ? (
+           <Card className="border border-indigo-500/20 bg-indigo-500/5">
+             <CardContent className="py-8">
+               <p className="text-gray-300 font-medium text-center">You are in {groups.length} group(s), but voting UI is coming soon!</p>
+             </CardContent>
+           </Card>
+        ) : (
+          <Card className="border-dashed border-indigo-500/20 bg-indigo-500/5">
+            <CardContent className="py-10 text-center">
+              <Vote className="h-10 w-10 text-indigo-400/40 mx-auto mb-3" />
+              <p className="text-gray-400 font-medium">No active voting rounds.</p>
+              <p className="text-sm text-gray-600 mt-1">Join a group and start one!</p>
+            </CardContent>
+          </Card>
+        )}
       </section>
 
       {/* Recent Activity Preview */}
       <section>
         <SectionHeader title="Recent Friend Activity" icon={Activity} />
-        <Card className="border-dashed border-white/10 bg-white/[0.02]">
-          <CardContent className="py-10 text-center">
-            <Activity className="h-10 w-10 text-gray-600 mx-auto mb-3" />
-            <p className="text-gray-400 font-medium">No activity yet.</p>
-            <p className="text-sm text-gray-600 mt-1">Follow some people to see their updates here.</p>
-          </CardContent>
-        </Card>
+        {feedLoading ? (
+          <div className="space-y-4">
+            <Skeleton className="h-32 w-full rounded-2xl" />
+            <Skeleton className="h-32 w-full rounded-2xl" />
+          </div>
+        ) : recentFeed.length > 0 ? (
+          <div className="flex flex-col gap-4">
+            {recentFeed.map((activity: any, i: number) => (
+              <ActivityCard key={i} activity={activity} />
+            ))}
+          </div>
+        ) : (
+          <Card className="border-dashed border-white/10 bg-white/[0.02]">
+            <CardContent className="py-10 text-center">
+              <Activity className="h-10 w-10 text-gray-600 mx-auto mb-3" />
+              <p className="text-gray-400 font-medium">No activity yet.</p>
+              <p className="text-sm text-gray-600 mt-1">Follow some people to see their updates here.</p>
+            </CardContent>
+          </Card>
+        )}
       </section>
     </div>
   )

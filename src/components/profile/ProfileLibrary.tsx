@@ -34,6 +34,11 @@ export function ProfileLibrary({ items, isPublic, isFollower, isOwnProfile, isLo
     )
   }
 
+  const filteredItems = React.useMemo(() => {
+    if (activeTab === 'all') return items
+    return items.filter(item => item.status === activeTab)
+  }, [items, activeTab])
+
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
@@ -45,7 +50,7 @@ export function ProfileLibrary({ items, isPublic, isFollower, isOwnProfile, isLo
       </div>
 
       <MediaGrid 
-        items={items} 
+        items={filteredItems} 
         isLoading={isLoading} 
         emptyMessage={`No media items in "${statusTabs.find(t => t.value === activeTab)?.label}".`} 
       />
