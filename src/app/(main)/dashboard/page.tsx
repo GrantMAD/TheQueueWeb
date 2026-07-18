@@ -11,13 +11,18 @@ import { useUserGroups } from '@/hooks/useGroups'
 import { MediaCard } from '@/components/media/MediaCard'
 import { ActivityCard } from '@/components/feed/ActivityCard'
 
-function SectionHeader({ title, icon: Icon }: { title: string, icon: React.ElementType }) {
+function SectionHeader({ title, description, icon: Icon }: { title: string, description?: string, icon: React.ElementType }) {
   return (
-    <div className="flex items-center gap-2.5 mb-5">
-      <div className="h-7 w-7 rounded-lg bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center">
-        <Icon className="h-4 w-4 text-indigo-400" />
+    <div className="mb-5">
+      <div className="flex items-center gap-2.5 mb-1">
+        <div className="h-7 w-7 rounded-lg bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center">
+          <Icon className="h-4 w-4 text-indigo-400" />
+        </div>
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h2>
       </div>
-      <h2 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h2>
+      {description && (
+        <p className="text-sm text-gray-500 dark:text-gray-400 ml-9.5">{description}</p>
+      )}
     </div>
   )
 }
@@ -61,7 +66,7 @@ export default function DashboardPage() {
 
       {/* Continue Watching / Reading */}
       <section>
-        <SectionHeader title="Continue Where You Left Off" icon={Clock} />
+        <SectionHeader title="Continue Where You Left Off" description="Pick up right where you stopped — your in-progress movies, shows, books, and more." icon={Clock} />
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {libraryLoading ? (
             Array.from({ length: 5 }).map((_, i) => (
@@ -81,7 +86,7 @@ export default function DashboardPage() {
 
       {/* Active Group Votes */}
       <section>
-        <SectionHeader title="Active Votes in Your Groups" icon={Vote} />
+        <SectionHeader title="Active Votes in Your Groups" description="Help your group decide what to watch or read next — open voting rounds are shown here." icon={Vote} />
         {groupsLoading ? (
            <Skeleton className="h-32 w-full rounded-2xl" />
         ) : groups && groups.length > 0 ? (
@@ -103,7 +108,7 @@ export default function DashboardPage() {
 
       {/* Recent Activity Preview */}
       <section>
-        <SectionHeader title="Recent Friend Activity" icon={Activity} />
+        <SectionHeader title="Recent Friend Activity" description="See what the people you follow have been watching, reading, and reviewing lately." icon={Activity} />
         {feedLoading ? (
           <div className="space-y-4">
             <Skeleton className="h-32 w-full rounded-2xl" />

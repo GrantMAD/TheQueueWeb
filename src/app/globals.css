@@ -21,11 +21,11 @@
 }
 
 :root {
-  --background: #f8fafc;
+  --background: #eef0f8;
   --foreground: #0f172a;
-  --blob-1: #e0e7ff; /* Light indigo */
-  --blob-2: #ede9fe; /* Light purple */
-  --blob-3: #fce7f3; /* Light pink */
+  --blob-1: #c7d2fe; /* Indigo 200 */
+  --blob-2: #ddd6fe; /* Violet 200 */
+  --blob-3: #fbcfe8; /* Pink 200 */
 }
 
 .dark {

@@ -23,7 +23,22 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         {/* Main content */}
-        <main id="main-content" className="flex-1 overflow-y-auto pb-20 md:pb-0">
+        <main id="main-content" className="relative flex-1 overflow-y-auto pb-20 md:pb-0">
+          {/* Ambient background blobs */}
+          <div className="pointer-events-none fixed inset-0 overflow-hidden -z-10" aria-hidden>
+            <div
+              className="animate-blob absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full opacity-40 blur-3xl"
+              style={{ background: 'var(--blob-1)' }}
+            />
+            <div
+              className="animate-blob animation-delay-2000 absolute top-1/2 -right-48 w-[500px] h-[500px] rounded-full opacity-30 blur-3xl"
+              style={{ background: 'var(--blob-2)' }}
+            />
+            <div
+              className="animate-blob animation-delay-4000 absolute -bottom-32 left-1/3 w-[400px] h-[400px] rounded-full opacity-30 blur-3xl"
+              style={{ background: 'var(--blob-3)' }}
+            />
+          </div>
           {children}
         </main>
       </div>
