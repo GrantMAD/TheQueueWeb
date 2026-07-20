@@ -20,9 +20,10 @@ interface ProfileHeaderProps {
   isFollowing?: boolean
   onFollow?: () => void
   onEdit?: () => void
+  isLoading?: boolean
 }
 
-export function ProfileHeader({ user, email, followerCount, followingCount, isOwnProfile, isFollowing, onFollow, onEdit }: ProfileHeaderProps) {
+export function ProfileHeader({ user, email, followerCount, followingCount, isOwnProfile, isFollowing, onFollow, onEdit, isLoading }: ProfileHeaderProps) {
   return (
     <div className="relative mb-12">
       {/* Banner */}
@@ -51,7 +52,7 @@ export function ProfileHeader({ user, email, followerCount, followingCount, isOw
               <Settings className="h-4 w-4" /> Edit Profile
             </Button>
           ) : (
-            <Button onClick={onFollow} variant={isFollowing ? 'secondary' : 'primary'} className="w-32">
+            <Button onClick={onFollow} variant={isFollowing ? 'secondary' : 'primary'} className="w-32" isLoading={isLoading}>
               {isFollowing ? 'Following' : 'Follow'}
             </Button>
           )}

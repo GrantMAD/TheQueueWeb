@@ -168,7 +168,6 @@ export default function UITestPage() {
                 <div className="bg-black/20 p-6 rounded-3xl border border-white/5">
                   <MediaDetail 
                     item={mockMovie} 
-                    userStatus={libraryStatus} 
                   />
                 </div>
 

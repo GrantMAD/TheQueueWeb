@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { ImageIcon, Users, Lock, Globe, Vote, Clock } from 'lucide-react'
+import { useGroupMutations } from '@/hooks/useGroups'
 
 export default function CreateGroupPage() {
   const router = useRouter()
@@ -13,14 +14,22 @@ export default function CreateGroupPage() {
   const [votingEnabled, setVotingEnabled] = React.useState(true)
   const [votingDuration, setVotingDuration] = React.useState(48)
   const [votesPerMember, setVotesPerMember] = React.useState(3)
-  const [isLoading, setIsLoading] = React.useState(false)
+  const { createGroup } = useGroupMutations()
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const handleCreate = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-    // Data layer wired in Phase 10
-    console.log({ name, description, type, votingEnabled, votingDuration, votesPerMember })
-    setIsLoading(false)
+    createGroup.mutate({
+      name,
+      description,
+      type,
+      voting_enabled: votingEnabled,
+      voting_duration_hours: votingDuration,
+      votes_per_member: votesPerMember
+    }, {
+      onSuccess: (data) => {
+        router.push(`/groups/${data.id}`)
+      }
+    })
   }
 
   return (
@@ -93,7 +102,7 @@ export default function CreateGroupPage() {
           )}
         </div>
 
-        <Button type="submit" size="lg" isLoading={isLoading} disabled={!name.trim()} className="w-full shadow-xl shadow-indigo-500/20">
+        <Button type="submit" size="lg" isLoading={createGroup.isPending} disabled={!name.trim()} className="w-full shadow-xl shadow-indigo-500/20">
           Create Group
         </Button>
       </form>

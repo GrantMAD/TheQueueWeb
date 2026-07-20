@@ -1,16 +1,14 @@
+'use client'
 import * as React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { GroupCard } from '@/components/groups/GroupCard'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { Plus, Users } from 'lucide-react'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = { title: 'My Groups' }
+import { useUserGroups } from '@/hooks/useGroups'
 
 export default function GroupsPage() {
-  const isLoading = false
-  const groups: any[] = []
+  const { data: groups = [], isLoading } = useUserGroups()
 
   return (
     <div className="p-6 md:p-8 max-w-6xl mx-auto">
@@ -49,3 +47,4 @@ export default function GroupsPage() {
     </div>
   )
 }
+

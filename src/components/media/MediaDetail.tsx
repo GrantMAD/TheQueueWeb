@@ -1,20 +1,23 @@
+'use client'
 import * as React from 'react'
-import { MediaItem } from '@/types'
+import { MediaItem, MediaStatus } from '@/types'
 import { Badge } from '@/components/ui/Badge'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { AddToLibraryButton } from './AddToLibraryButton'
 import { ProgressTracker } from './ProgressTracker'
 import { formatRuntime } from '@/lib/utils/formatters'
+import { useLibraryItem, useLibraryMutations } from '@/hooks/useLibrary'
 
 interface MediaDetailProps {
   item: MediaItem
   isLoading?: boolean
-  userStatus?: any // will refine types when wiring up
-  userProgress?: number
 }
 
-export function MediaDetail({ item, isLoading, userStatus, userProgress = 0 }: MediaDetailProps) {
-  if (isLoading) {
+export function MediaDetail({ item, isLoading }: MediaDetailProps) {
+  const { data: libraryItem, isLoading: libraryLoading } = useLibraryItem(item.external_id, item.api_source)
+  const { add, updateStatus, updateProgress, remove } = useLibraryMutations()
+
+  if (isLoading || libraryLoading) {
     return (
       <div className="flex flex-col md:flex-row gap-8 lg:gap-12 w-full max-w-6xl mx-auto">
         <Skeleton className="w-full md:w-72 lg:w-80 aspect-[2/3] shrink-0 rounded-2xl shadow-2xl" />
@@ -35,8 +38,28 @@ export function MediaDetail({ item, isLoading, userStatus, userProgress = 0 }: M
     )
   }
 
-  const handleStatusUpdate = (status: any) => { console.log('Update status', status) }
-  const handleProgressUpdate = (val: number) => { console.log('Update progress', val) }
+  const handleStatusUpdate = (status: MediaStatus) => {
+    if (!libraryItem) {
+      add.mutate({ mediaItem: item, status })
+    } else {
+      updateStatus.mutate({ id: libraryItem.user_media_id, status })
+    }
+  }
+
+  const handleProgressUpdate = (val: number) => {
+    if (!libraryItem) return
+    const isBook = item.type === 'book'
+    const isPodcast = item.type === 'podcast' || item.type === 'album'
+    
+    updateProgress.mutate({
+      id: libraryItem.user_media_id,
+      episode: isPodcast || item.type === 'tv' || item.type === 'anime' ? val : undefined,
+      page: isBook ? val : undefined
+    })
+  }
+
+  const userProgress = libraryItem?.current_episode || libraryItem?.current_page || 0
+
 
   return (
     <div className="flex flex-col md:flex-row gap-8 lg:gap-12 relative z-10 w-full max-w-6xl mx-auto">
@@ -56,9 +79,13 @@ export function MediaDetail({ item, isLoading, userStatus, userProgress = 0 }: M
         </div>
         
         <div className="mt-6 space-y-4">
-          <AddToLibraryButton currentStatus={userStatus} onUpdate={handleStatusUpdate} />
+          <AddToLibraryButton 
+            currentStatus={libraryItem?.status} 
+            onUpdate={handleStatusUpdate} 
+            isLoading={add.isPending || updateStatus.isPending}
+          />
           
-          {userStatus && item.type !== 'movie' && (
+          {libraryItem?.status && item.type !== 'movie' && (
             <ProgressTracker 
               label={item.type === 'book' ? 'Page' : item.type === 'album' || item.type === 'podcast' ? 'Track' : 'Episode'} 
               current={userProgress} 

@@ -1,21 +1,26 @@
+'use client'
 import * as React from 'react'
 import { Bell, CheckCheck } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Skeleton } from '@/components/ui/Skeleton'
-import type { Metadata } from 'next'
-
-export const metadata: Metadata = { title: 'Notifications' }
+import { useNotifications } from '@/hooks/useNotifications'
 
 export default function NotificationsPage() {
-  const isLoading = false
-  const notifications: any[] = []
+  const { notifications, markRead, markAllRead } = useNotifications()
+  const { data = [], isLoading } = notifications
 
   return (
     <div className="p-6 md:p-8 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white">Notifications</h1>
-        {notifications.length > 0 && (
-          <Button variant="ghost" size="sm" className="gap-2 text-indigo-400 hover:text-indigo-300">
+        {data.length > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-2 text-indigo-400 hover:text-indigo-300"
+            onClick={() => markAllRead.mutate()}
+            isLoading={markAllRead.isPending}
+          >
             <CheckCheck className="h-4 w-4" /> Mark all as read
           </Button>
         )}
@@ -25,7 +30,7 @@ export default function NotificationsPage() {
         <div className="space-y-4">
           {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-20 w-full rounded-2xl" />)}
         </div>
-      ) : notifications.length === 0 ? (
+      ) : data.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-32 text-center border border-white/10 rounded-2xl bg-black/20">
           <Bell className="h-12 w-12 text-gray-600 mb-4" />
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">You're all caught up!</h2>
@@ -33,8 +38,12 @@ export default function NotificationsPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {notifications.map((n: any) => (
-            <div key={n.id} className={`flex items-start gap-4 p-4 rounded-2xl border transition-colors cursor-pointer ${n.is_read ? 'border-white/5 bg-black/20 hover:bg-white/5' : 'border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10'}`}>
+          {data.map((n: any) => (
+            <div
+              key={n.id}
+              onClick={() => !n.is_read && markRead.mutate(n.id)}
+              className={`flex items-start gap-4 p-4 rounded-2xl border transition-colors cursor-pointer ${n.is_read ? 'border-white/5 bg-black/20 hover:bg-white/5' : 'border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10'}`}
+            >
               <Bell className="h-5 w-5 text-indigo-400 shrink-0 mt-0.5" />
               <div className="flex-1">
                 <p className="text-sm text-gray-200">{n.message}</p>
@@ -48,3 +57,4 @@ export default function NotificationsPage() {
     </div>
   )
 }
+

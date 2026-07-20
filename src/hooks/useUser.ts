@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createClient } from '@/lib/supabase/client'
-import { useAuthStore } from '@/lib/store/auth'
+import { useAuthStore } from '@/store/authStore'
 import { useEffect } from 'react'
 import type { UserProfile } from '@/types'
 
@@ -38,4 +38,22 @@ export function useUser() {
   })
 
   return { session, user, profile, isLoading }
+}
+
+export function useProfileByUsername(username: string) {
+  const supabase = createClient()
+  return useQuery({
+    queryKey: ['profile', 'by-username', username],
+    queryFn: async () => {
+      if (!username) return null
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('username', username)
+        .single()
+      if (error) throw error
+      return data as any
+    },
+    enabled: !!username
+  })
 }

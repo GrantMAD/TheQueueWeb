@@ -4,11 +4,22 @@ import { MediaSearch } from '@/components/media/MediaSearch'
 import { MediaGrid } from '@/components/media/MediaGrid'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
+import { useMediaSearch } from '@/hooks/useMedia'
 import { Users, Compass } from 'lucide-react'
+import { usePublicGroups } from '@/hooks/useGroups'
 
 export default function DiscoverPage() {
-  const isLoadingGroups = false
-  const publicGroups: any[] = []
+  const { data: publicGroups = [], isLoading: isLoadingGroups } = usePublicGroups()
+  
+  const [searchQuery, setSearchQuery] = React.useState('')
+  const [searchType, setSearchType] = React.useState<string | undefined>()
+  
+  const { data: searchResults, isLoading: isSearching } = useMediaSearch(searchQuery, searchType)
+
+  const handleSearch = (query: string, type?: string) => {
+    setSearchQuery(query)
+    setSearchType(type)
+  }
 
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto">
@@ -20,7 +31,11 @@ export default function DiscoverPage() {
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
           <Compass className="h-5 w-5 text-indigo-400" /> Search All Media
         </h2>
-        <MediaSearch onSearch={() => {}} />
+        <MediaSearch 
+          onSearch={handleSearch} 
+          results={searchResults} 
+          isLoading={isSearching} 
+        />
       </section>
 
       {/* Public Groups */}

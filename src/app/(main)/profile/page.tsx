@@ -3,8 +3,9 @@ import * as React from 'react'
 import { useRouter } from 'next/navigation'
 import { ProfileHeader } from '@/components/profile/ProfileHeader'
 import { ProfileLibrary } from '@/components/profile/ProfileLibrary'
-import { useUser } from '@/hooks/useUser'
 import { useLibrary } from '@/hooks/useLibrary'
+import { useFollowCounts } from '@/hooks/useFollows'
+import { useUser } from '@/hooks/useUser'
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -37,13 +38,15 @@ export default function ProfilePage() {
     created_at: user.created_at,
   }
 
+  const { data: followCounts } = useFollowCounts(profileUser.id)
+
   return (
     <div className="p-6 md:p-8 max-w-6xl mx-auto">
       <ProfileHeader 
         user={profileUser}
         email={user.email ?? undefined}
-        followerCount={profile.followers_count ?? 0} 
-        followingCount={profile.following_count ?? 0} 
+        followerCount={followCounts?.followers ?? 0} 
+        followingCount={followCounts?.following ?? 0} 
         isOwnProfile 
         onEdit={() => router.push('/settings')} 
       />
