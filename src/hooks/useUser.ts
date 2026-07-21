@@ -57,3 +57,23 @@ export function useProfileByUsername(username: string) {
     enabled: !!username
   })
 }
+
+export function useUserSearch(query: string) {
+  const supabase = createClient()
+  return useQuery({
+    queryKey: ['users', 'search', query],
+    queryFn: async () => {
+      if (!query || query.trim() === '') return []
+      
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .or(`username.ilike.%${query}%,display_name.ilike.%${query}%`)
+        .limit(20)
+        
+      if (error) throw error
+      return data as any[]
+    },
+    enabled: !!query && query.trim() !== ''
+  })
+}

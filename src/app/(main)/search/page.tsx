@@ -6,6 +6,8 @@ import { Avatar } from '@/components/ui/Avatar'
 import { Button } from '@/components/ui/Button'
 import { Tabs } from '@/components/ui/Tabs'
 import { Search, UserPlus } from 'lucide-react'
+import { useMediaSearch } from '@/hooks/useMedia'
+import { useUserSearch } from '@/hooks/useUser'
 
 const searchTabs = [
   { label: 'All', value: 'all' },
@@ -19,9 +21,20 @@ const searchTabs = [
 export default function SearchPage() {
   const [query, setQuery] = React.useState('')
   const [activeTab, setActiveTab] = React.useState('all')
-  const isLoading = false
-  const mediaResults: any[] = []
-  const userResults: any[] = []
+  const [debouncedQuery, setDebouncedQuery] = React.useState(query)
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(query), 500)
+    return () => clearTimeout(timer)
+  }, [query])
+
+  const { data: mediaResults = [], isLoading: isMediaLoading } = useMediaSearch(
+    debouncedQuery, 
+    activeTab === 'all' || activeTab === 'users' ? undefined : activeTab
+  )
+  const { data: userResults = [], isLoading: isUserLoading } = useUserSearch(debouncedQuery)
+
+  const isLoading = activeTab === 'users' ? isUserLoading : isMediaLoading
 
   return (
     <div className="p-6 md:p-8 max-w-6xl mx-auto">

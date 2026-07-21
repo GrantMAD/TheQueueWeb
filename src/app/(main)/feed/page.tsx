@@ -3,15 +3,35 @@ import * as React from 'react'
 import { Badge } from '@/components/ui/Badge'
 import { Skeleton } from '@/components/ui/Skeleton'
 import { Users } from 'lucide-react'
-
+import { useFeed } from '@/hooks/useFeed'
+import { ActivityCard } from '@/components/feed/ActivityCard'
 const mediaFilters = ['All', 'Movies', 'TV', 'Books', 'Anime']
 const activityFilters = ['All', 'Status update', 'Review']
 
 export default function FeedPage() {
   const [mediaFilter, setMediaFilter] = React.useState('All')
   const [activityFilter, setActivityFilter] = React.useState('All')
-  const isLoading = false
-  const hasItems = false
+  const { data, isLoading } = useFeed()
+  const allItems = data?.pages.flatMap(page => page.data) || []
+  
+  // Apply filters locally (basic implementation for now)
+  const filteredItems = React.useMemo(() => {
+    return allItems.filter((item: any) => {
+      // Very basic filtering, just to make the UI interactive
+      if (mediaFilter !== 'All') {
+        const type = item.media_item?.type
+        if (mediaFilter === 'Movies' && type !== 'movie') return false
+        if (mediaFilter === 'TV' && type !== 'tv') return false
+      }
+      if (activityFilter !== 'All') {
+        if (activityFilter === 'Review' && item.type !== 'review') return false
+        if (activityFilter === 'Status update' && item.type !== 'status') return false
+      }
+      return true
+    })
+  }, [allItems, mediaFilter, activityFilter])
+
+  const hasItems = filteredItems.length > 0
 
   return (
     <div className="p-6 md:p-8 max-w-3xl mx-auto">
@@ -49,7 +69,9 @@ export default function FeedPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {/* ActivityCards will be rendered here once data layer is wired in Phase 10 */}
+          {filteredItems.map((activity: any) => (
+            <ActivityCard key={activity.id} activity={activity} />
+          ))}
         </div>
       )}
     </div>

@@ -10,6 +10,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { setTheme } = useTheme()
   const supabase = createClient()
 
+  const fetchProfile = async (userId: string) => {
+    const { data } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
+
+    const profileData = data as unknown as UserProfile | null
+
+    setProfile(profileData)
+    if (profileData?.theme_preference) {
+      setTheme(profileData.theme_preference)
+    }
+    setLoading(false)
+  }
+
   React.useEffect(() => {
     // Initial session check
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -34,22 +50,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     return () => subscription.unsubscribe()
   }, [])
-
-  const fetchProfile = async (userId: string) => {
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
-
-    const profileData = data as unknown as UserProfile | null
-
-    setProfile(profileData)
-    if (profileData?.theme_preference) {
-      setTheme(profileData.theme_preference)
-    }
-    setLoading(false)
-  }
 
   return <>{children}</>
 }
