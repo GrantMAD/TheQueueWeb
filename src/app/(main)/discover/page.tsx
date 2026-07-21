@@ -5,7 +5,7 @@ import { MediaGrid } from '@/components/media/MediaGrid'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { useMediaSearch } from '@/hooks/useMedia'
-import { Users, Compass } from 'lucide-react'
+import { Users, Compass, Activity } from 'lucide-react'
 import { usePublicGroups } from '@/hooks/useGroups'
 
 export default function DiscoverPage() {
@@ -15,6 +15,9 @@ export default function DiscoverPage() {
   const [searchType, setSearchType] = React.useState<string | undefined>()
   
   const { data: searchResults, isLoading: isSearching } = useMediaSearch(searchQuery, searchType)
+  
+  // Trending media (using a broad generic term for now)
+  const { data: trendingMedia = [], isLoading: isLoadingTrending } = useMediaSearch('movie', 'movie')
 
   const handleSearch = (query: string, type?: string) => {
     setSearchQuery(query)
@@ -36,6 +39,14 @@ export default function DiscoverPage() {
           results={searchResults} 
           isLoading={isSearching} 
         />
+      </section>
+
+      {/* Trending Media */}
+      <section className="mb-16">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+          <Activity className="h-5 w-5 text-indigo-400" /> Trending Right Now
+        </h2>
+        <MediaGrid items={trendingMedia.slice(0, 10)} isLoading={isLoadingTrending} />
       </section>
 
       {/* Public Groups */}

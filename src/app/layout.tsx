@@ -18,12 +18,32 @@ export const metadata: Metadata = {
     default: 'The Queue - Share what you watch, read, and listen to',
   },
   description: 'A social media platform for sharing and tracking your favorite movies, TV shows, books, and anime with friends and groups.',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
     title: 'The Queue',
     description: 'A social media platform for sharing and tracking your favorite media with friends and groups.',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'The Queue - Social Media for Media Lovers',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'The Queue',
+    description: 'Track, share, and discuss movies, TV, books, and anime with friends.',
+    images: ['/og-image.png'],
   },
 }
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
