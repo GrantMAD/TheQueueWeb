@@ -8,8 +8,10 @@ import { useUser } from '@/hooks/useUser'
 import { useLibrary } from '@/hooks/useLibrary'
 import { useFeed } from '@/hooks/useFeed'
 import { useUserGroups } from '@/hooks/useGroups'
+import { useAllActiveVotes } from '@/hooks/useVoting'
 import { MediaCard } from '@/components/media/MediaCard'
 import { ActivityCard } from '@/components/feed/ActivityCard'
+import Link from 'next/link'
 
 function SectionHeader({ title, description, icon: Icon }: { title: string, description?: string, icon: React.ElementType }) {
   return (
@@ -32,6 +34,9 @@ export default function DashboardPage() {
   const { data: library, isLoading: libraryLoading } = useLibrary(user?.id)
   const { data: feedPages, isLoading: feedLoading } = useFeed()
   const { data: groups, isLoading: groupsLoading } = useUserGroups()
+  
+  const groupIds = React.useMemo(() => groups?.map(g => g.id) || [], [groups])
+  const { data: activeVotes, isLoading: activeVotesLoading } = useAllActiveVotes(groupIds)
 
   // "Continue" = items currently watching/reading
   const continueItems = React.useMemo(() => {
@@ -87,20 +92,45 @@ export default function DashboardPage() {
       {/* Active Group Votes */}
       <section>
         <SectionHeader title="Active Votes in Your Groups" description="Help your group decide what to watch or read next — open voting rounds are shown here." icon={Vote} />
-        {groupsLoading ? (
+        {groupsLoading || activeVotesLoading ? (
            <Skeleton className="h-32 w-full rounded-2xl" />
-        ) : groups && groups.length > 0 ? (
-           <Card className="border border-indigo-500/20 bg-indigo-500/5">
-             <CardContent className="py-8">
-               <p className="text-gray-300 font-medium text-center">You are in {groups.length} group(s), but voting UI is coming soon!</p>
-             </CardContent>
-           </Card>
-        ) : (
+        ) : activeVotes && activeVotes.length > 0 ? (
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             {activeVotes.map(round => (
+               <Link key={round.id} href={`/groups/${round.group_id}/vote`}>
+                 <Card className="border border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 hover:border-indigo-500/40 transition-colors cursor-pointer group">
+                   <CardContent className="py-6 flex items-center justify-between">
+                     <div className="flex items-center gap-4">
+                       <div className="h-12 w-12 rounded-full bg-indigo-500/20 flex items-center justify-center group-hover:scale-105 transition-transform">
+                         <Vote className="h-6 w-6 text-indigo-400" />
+                       </div>
+                       <div>
+                         <h3 className="font-bold text-white text-lg">Active round</h3>
+                         <p className="text-indigo-300 text-sm">{round.groups?.name}</p>
+                       </div>
+                     </div>
+                     <div className="text-right flex flex-col items-end">
+                        <Badge className="bg-indigo-500 text-white mb-2 shadow-[0_0_15px_rgba(99,102,241,0.5)] border-indigo-400 font-medium">Vote Now</Badge>
+                     </div>
+                   </CardContent>
+                 </Card>
+               </Link>
+             ))}
+           </div>
+        ) : groups && groups.length === 0 ? (
           <Card className="border-dashed border-indigo-500/20 bg-indigo-500/5">
             <CardContent className="py-10 text-center">
               <Vote className="h-10 w-10 text-indigo-400/40 mx-auto mb-3" />
               <p className="text-gray-400 font-medium">No active voting rounds.</p>
               <p className="text-sm text-gray-600 mt-1">Join a group and start one!</p>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="border-dashed border-indigo-500/20 bg-indigo-500/5">
+            <CardContent className="py-10 text-center">
+              <Vote className="h-10 w-10 text-indigo-400/40 mx-auto mb-3" />
+              <p className="text-gray-400 font-medium">No active voting rounds.</p>
+              <p className="text-sm text-gray-600 mt-1">Check back later or start one in your groups.</p>
             </CardContent>
           </Card>
         )}

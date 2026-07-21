@@ -14,8 +14,8 @@ export function useRealtime(groupId?: string) {
 
     const channel = supabase
       .channel(`group:${groupId}:realtime`)
-      // Votes table → invalidate voting state
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'votes', filter: `group_id=eq.${groupId}` }, () => {
+      // Votes table → invalidate voting state (Note: votes table doesn't have group_id, so we listen to all and invalidate, or we could filter if we joined, but Realtime doesn't support joins in filter. In a real app we'd filter by voting_round_id, but here we just invalidate when any vote happens in this group context)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'votes' }, () => {
         queryClient.invalidateQueries({ queryKey: ['voting', groupId] })
       })
       // Media pool → invalidate pool query
@@ -28,7 +28,7 @@ export function useRealtime(groupId?: string) {
         queryClient.invalidateQueries({ queryKey: ['groups', groupId, 'history'] })
       })
       // Progress updates → invalidate progress feed
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'user_media' }, () => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'progress_updates', filter: `group_id=eq.${groupId}` }, () => {
         queryClient.invalidateQueries({ queryKey: ['groups', groupId, 'progress'] })
       })
       .subscribe()

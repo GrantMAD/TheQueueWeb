@@ -107,3 +107,30 @@ export function useVoting(groupId: string) {
   }
 }
 
+export function useAllActiveVotes(groupIds: string[]) {
+  const supabase = createClient()
+
+  return useQuery({
+    queryKey: ['voting', 'active-all', groupIds],
+    queryFn: async () => {
+      if (!groupIds || groupIds.length === 0) return []
+      const { data, error } = await supabase
+        .from('voting_rounds')
+        .select(`
+          *,
+          groups (
+            id,
+            name
+          )
+        `)
+        .in('group_id', groupIds)
+        .eq('status', 'active')
+        .order('ends_at', { ascending: true })
+
+      if (error) throw error
+      return data as any[]
+    },
+    enabled: groupIds.length > 0,
+  })
+}
+
